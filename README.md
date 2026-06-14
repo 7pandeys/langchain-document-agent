@@ -72,7 +72,7 @@ langchain-document-agent/
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/7pandeys/langchain-document-agent.git
 cd langchain-document-agent
 ```
 
