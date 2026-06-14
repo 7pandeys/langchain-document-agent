@@ -7,7 +7,7 @@
 #     return GoogleGenerativeAIEmbeddings(
 #         model="models/embedding-004"
 #     )
-
+from src.config import GOOGLE_API_KEY
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
 def get_embeddings():
