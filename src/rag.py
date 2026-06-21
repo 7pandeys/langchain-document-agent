@@ -15,6 +15,7 @@ def answer_question(question, vector_store):
         k=2
     )
 
+
     context = "\n\n".join(
         doc.page_content
         for doc in docs

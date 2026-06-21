@@ -13,17 +13,14 @@ embeddings = get_embeddings()
 vector_store = create_vector_store(
     chunks,
     embeddings
-) # run before the demo
-# vector_store.save_local("faiss_index") # store and run in the demo
-# FAISS.load_local("faiss_index")
-
-
-question = ["What is the vacation policy?","What is the remote work policy?","What products are listed?","When is the next RAG workshop?"]
-
-for i in question:
-    answer = answer_question(
-        i,
-        vector_store
-    )
-
-    print(answer)
+)
+results = vector_store.similarity_search(
+    "vacation policy",
+    k=2
+)
+print(results[0].metadata)
+# for doc in results:
+#
+#     print(doc.page_content)
+#
+#     print(doc.metadata)
