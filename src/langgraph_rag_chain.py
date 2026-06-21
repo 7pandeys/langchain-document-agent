@@ -7,26 +7,30 @@ from src.embeddings import get_embeddings
 from src.vector_store import create_vector_store
 from src.llm import get_llm
 
+documents = load_pdf_documents(
+    "data/sample.pdf"
+)
 
+chunks = chunk_text(
+    documents
+)
+
+embeddings = get_embeddings()
+
+vector_store = create_vector_store(
+    chunks,
+    embeddings
+)
 
 class GraphState(TypedDict):
     question: str
-    tool: str
-    answer: str
     context: str
+    answer: str
+    sources: list[str]
 
 
 def retrieve_node(state):
-    text = load_pdf_documents("data/sample.pdf")
 
-    chunks = chunk_text(text)
-
-    embeddings = get_embeddings()
-
-    vector_store = create_vector_store(
-        chunks,
-        embeddings
-    )
     docs = vector_store.similarity_search(
         state["question"],
         k=2
@@ -37,9 +41,17 @@ def retrieve_node(state):
         for doc in docs
     )
 
+    sources = list(
+        {
+            doc.metadata["source"]
+            for doc in docs
+        }
+    )
+
     return {
         **state,
-        "context": context
+        "context": context,
+        "sources": sources
     }
 
 
@@ -63,6 +75,13 @@ Question:
         "answer": response.content
     }
 
+# def source_node(state):
+#
+#     return {
+#         **state,
+#         "sources":
+#         "data/sample.pdf"
+#     }
 
 graph = StateGraph(GraphState)
 
@@ -76,6 +95,11 @@ graph.add_node(
     answer_node
 )
 
+# graph.add_node(
+#     "sources",
+#     source_node
+# )
+
 graph.set_entry_point(
     "retrieve"
 )
@@ -84,6 +108,7 @@ graph.add_edge(
     "retrieve",
     "answer"
 )
+
 
 graph.add_edge(
     "answer",
