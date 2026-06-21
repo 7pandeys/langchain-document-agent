@@ -1,0 +1,21 @@
+question,expected,actual,result
+What is the vacation policy?,25 days,"The vacation policy states that employees are entitled to 25 days of vacation per year, plus public holidays.
+
+Sources:
+data/sample.pdf (Page 1)",PASS
+What is the remote work policy?,3 days,"The remote work policy at this company allows employees to work remotely up to 3 days per week with manager approval.
+
+Sources:
+data/sample.pdf (Page 1)",PASS
+What products are listed?,RAG-Engine Pro|Embedder Mini|Chunk Optimizer,"The list of products includes:
+
+- RAG-Engine Pro
+- Embedder Mini
+- Chunk Optimizer
+
+Sources:
+data/sample.pdf (Page 1)",PASS
+When is the next RAG workshop?,2026-08-01,"The next RAG workshop will be held on July 15, 2026.
+
+Sources:
+data/sample.pdf (Page 1)",FAIL

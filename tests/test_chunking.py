@@ -8,4 +8,4 @@ print(f"Total Chunks: {len(chunks)}")
 
 for i, chunk in enumerate(chunks):
     print(f"\n--- Chunk {i+1} ---")
-    print(chunk[:200])
+    print(chunk)

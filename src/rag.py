@@ -13,8 +13,16 @@ from src.llm import get_llm
 def answer_question(question, vector_store):
     docs = vector_store.similarity_search(
         question,
-        k=5
+        # k=5
+        k=1
     )
+
+    print("\nRetrieved Chunks")
+    print("=" * 50)
+
+    for doc in docs:
+        print(doc.page_content[:300])
+        print()
     # Source Attribution
 
     unique_sources = set()

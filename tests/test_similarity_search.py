@@ -12,15 +12,13 @@ vector_store = create_vector_store(
     chunks,
     embeddings
 )
-
-query = "What is the vacation policy?"
 query = "When is the next RAG workshop?"
-
-results = vector_store.similarity_search(
+docs = vector_store.similarity_search(
     query,
-    k=2
+    k=5
 )
 
-for i, doc in enumerate(results):
-    print(f"\nResult {i+1}")
+for i, doc in enumerate(docs):
+    print(f"\nChunk {i+1}")
+    print(doc.metadata)
     print(doc.page_content)

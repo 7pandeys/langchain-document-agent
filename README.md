@@ -360,7 +360,23 @@ This project demonstrates:
 * LangChain Development
 
 ---
+## Evaluation Results
 
+Current Accuracy: 75%
+
+Passed:
+- Vacation Policy
+- Remote Work Policy
+- Product List
+
+Failed:
+- RAG Workshop Date
+
+Next Steps:
+- Improve retrieval recall
+- Experiment with chunk size
+- Add reranking
+---
 ## Author
 
 Sandeep Pandey
