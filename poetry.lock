@@ -1610,6 +1610,26 @@ langchain-core = ">=1.3.2,<2.0.0"
 pydantic = ">=2.0.0,<3.0.0"
 
 [[package]]
+name = "langchain-huggingface"
+version = "1.2.2"
+description = "An integration package connecting Hugging Face and LangChain."
+optional = false
+python-versions = "<4.0.0,>=3.10.0"
+groups = ["main"]
+files = [
+    {file = "langchain_huggingface-1.2.2-py3-none-any.whl", hash = "sha256:f94944b0c0d5afc687568d426c87ed5236907464c41e72108ed76eee1a690f6d"},
+    {file = "langchain_huggingface-1.2.2.tar.gz", hash = "sha256:1dd91ec415190d2704e93ec149618e3145075863ba37e74afc9080d685dc2743"},
+]
+
+[package.dependencies]
+huggingface-hub = ">=0.33.4,<2.0.0"
+langchain-core = ">=1.2.31,<2.0.0"
+tokenizers = ">=0.19.1,<1.0.0"
+
+[package.extras]
+full = ["sentence-transformers (>=5.2.0,<6.0.0)", "transformers (>=5.0.0,<6.0.0)"]
+
+[[package]]
 name = "langchain-ollama"
 version = "1.1.0"
 description = "An integration package connecting Ollama and LangChain"
@@ -5212,4 +5232,4 @@ cffi = ["cffi (>=1.17,<2.0) ; platform_python_implementation != \"PyPy\" and pyt
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.13"
-content-hash = "b3408536c90d2ddcf1408c26f5c48d78be508002f2e89a1a2fd0028ad8b7eee0"
+content-hash = "a5ffd6001cce1e9a8917f1a2a001bb3d4af734dee9e72b78ed0296ffb07433d6"

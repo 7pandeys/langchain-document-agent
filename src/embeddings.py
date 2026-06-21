@@ -8,7 +8,7 @@
 #         model="models/embedding-004"
 #     )
 from src.config import GOOGLE_API_KEY
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 def get_embeddings():
     return HuggingFaceEmbeddings(
