@@ -1,11 +1,11 @@
-from langgraph.graph import StateGraph
-from langgraph.graph import END
 from typing import TypedDict
-from src.agent_qwen import choose_tool
-from src.ingest import chunk_text, load_pdf_documents
+
+from langgraph.graph import END
+from langgraph.graph import StateGraph
 from src.embeddings import get_embeddings
-from src.vector_store import create_vector_store
+from src.ingest import chunk_text, load_pdf_documents
 from src.llm import get_llm
+from src.vector_store import create_vector_store
 
 documents = load_pdf_documents(
     "data/sample.pdf"
@@ -22,6 +22,7 @@ vector_store = create_vector_store(
     embeddings
 )
 
+
 class GraphState(TypedDict):
     question: str
     retrieved_docs: list
@@ -31,7 +32,6 @@ class GraphState(TypedDict):
 
 
 def retrieve_node(state):
-
     docs = vector_store.similarity_search(
         state["question"],
         k=5
@@ -59,11 +59,93 @@ def retrieve_node(state):
         "retrieved_docs": docs
     }
 
+
+def answer_node(state):
+    prompt = f"""
+    You are a document assistant.
+
+    Answer ONLY using the provided context.
+
+    If the answer is not explicitly present in the context,
+    reply exactly:
+
+    I could not find that information in the document.
+
+    Do not make assumptions.
+    Do not add external knowledge.
+
+    Context:
+    {state["context"]}
+
+    Question:
+    {state["question"]}
+    """
+
+    response = get_llm().invoke(
+        prompt
+    )
+
+    return {
+        **state,
+        "answer": response.content
+    }
+
+
 def rerank_node(state):
 
     docs = state["retrieved_docs"]
 
-    top_docs = docs[:2]
+    chunks_text = ""
+
+    for i, doc in enumerate(docs):
+        chunks_text += f"""
+Chunk {i+1}:
+{doc.page_content}
+
+"""
+
+    prompt = f"""
+Question:
+{state["question"]}
+
+Rank these chunks from most relevant to least relevant.
+
+{chunks_text}
+
+Return ONLY chunk numbers.
+
+Example:
+1,3,2,5,4
+"""
+
+    response = get_llm().invoke(
+        prompt
+    )
+
+    ranking = response.content.strip()
+
+    print("LLM Ranking:")
+    print(ranking)
+
+    # ranked_indices = []
+    #
+    # for num in ranking.split(","):
+    #     ranked_indices.append(
+    #         int(num.strip()) - 1
+    #     )
+    ranked_indices = []
+
+    for num in ranking.split(","):
+
+        idx = int(num.strip()) - 1
+
+        if idx < len(docs):
+            ranked_indices.append(idx)
+
+    top_docs = [
+        docs[i]
+        for i in ranked_indices[:2]
+    ]
 
     context = "\n\n".join(
         doc.page_content
@@ -83,25 +165,6 @@ def rerank_node(state):
         "sources": sources
     }
 
-def answer_node(state):
-    prompt = f"""
-Answer ONLY using context.
-
-Context:
-{state['context']}
-
-Question:
-{state['question']}
-"""
-
-    response = get_llm().invoke(
-        prompt
-    )
-
-    return {
-        **state,
-        "answer": response.content
-    }
 
 graph = StateGraph(GraphState)
 
