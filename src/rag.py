@@ -14,7 +14,7 @@ def answer_question(question, vector_store):
     docs = vector_store.similarity_search(
         question,
         # k=5
-        k=1
+        k=5
     )
 
     print("\nRetrieved Chunks")
