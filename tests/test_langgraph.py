@@ -12,17 +12,11 @@ from src.langgraph_demo import app
 #
 # print(response["answer"])
 
-response = app.invoke(
-    {
-        "question":
-        "What is the vacation policy?"
-    }
-)
-print(response)
-response = app.invoke(
-    {
-        "question":
-        "Summarize the document"
-    }
-)
-print(response)
+for i in ["What is the vacation policy?", "Summarize the document", "List the products", "What upcoming events are scheduled?"]:
+    response = app.invoke(
+        {
+            "question":
+                i
+        }
+    )
+    print(response)

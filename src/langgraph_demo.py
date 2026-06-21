@@ -1,8 +1,8 @@
 from langgraph.graph import StateGraph
 from langgraph.graph import END
 from typing import TypedDict
-from src.tools import search_document, summarize_document
-from agent_qwen import choose_tool
+from src.tools import search_document, summarize_document, upcoming_events, list_sources
+from src.agent_qwen import choose_tool
 
 
 class GraphState(TypedDict):
@@ -11,22 +11,36 @@ class GraphState(TypedDict):
     answer: str
 
 
+# def router_node(state):
+#
+#     question = state["question"]
+#
+#     if "summarize" in question.lower():
+#         tool = "summary"
+#     else:
+#         tool = "search"
+#
+#     print(f"Router selected: {tool}")
+#
+#     return {
+#         **state,
+#         "tool": tool
+#     }
+
 def router_node(state):
 
-    question = state["question"]
+    tool = choose_tool(
+        state["question"]
+    )
 
-    if "summarize" in question.lower():
-        tool = "summary"
-    else:
-        tool = "search"
-
-    print(f"Router selected: {tool}")
+    print(
+        f"Router selected: {tool}"
+    )
 
     return {
         **state,
         "tool": tool
     }
-
 
 def search_node(state):
 
@@ -78,6 +92,16 @@ graph.add_node(
     summary_node
 )
 
+graph.add_node(
+    "list_sources",
+    search_node
+)
+
+graph.add_node(
+    "upcoming_events",
+    summary_node
+)
+
 graph.set_entry_point(
     "router"
 )
@@ -86,8 +110,10 @@ graph.add_conditional_edges(
     "router",
     route_tool,
     {
-        "search": "search",
-        "summary": "summary"
+        "search_document": "search",
+        "summarize_document": "summary",
+        "list_sources": "list_sources",
+        "upcoming_events": "upcoming_events"
     }
 )
 
@@ -98,6 +124,16 @@ graph.add_edge(
 
 graph.add_edge(
     "summary",
+    END
+)
+
+graph.add_edge(
+    "list_sources",
+    END
+)
+
+graph.add_edge(
+    "upcoming_events",
     END
 )
 
