@@ -1,5 +1,5 @@
 from langchain.tools import tool
-
+from src.llm import get_llm
 from src.pipeline import get_vector_store
 from src.rag import answer_question
 
@@ -16,46 +16,77 @@ def search_document(question: str) -> str:
     )
 
 @tool
-def summarize_document(question: str) -> str:
+def summarize_document(question: str):
     """
-    Summarize document.
+    Summarize the entire document.
     """
-    return answer_question(
-        question,
-        vector_store
+
+    docs = vector_store.similarity_search(
+        "",
+        k=20
     )
+
+    context = "\n".join(
+        doc.page_content
+        for doc in docs
+    )
+
+    prompt = f"""
+Summarize this document.
+
+Context:
+{context}
+"""
+
+    response = get_llm().invoke(prompt)
+
+    return response.content
 @tool
 def list_sources(question: str):
     """
-    List document.
+    List document sources and page numbers.
     """
-    return answer_question(
+
+    docs = vector_store.similarity_search(
         question,
-        vector_store
+        k=5
     )
+
+    sources = set()
+
+    for doc in docs:
+        sources.add(
+            f"{doc.metadata['source']} "
+            f"(Page {doc.metadata['page']})"
+        )
+
+    return "\n".join(sources)
 
 @tool
 def upcoming_events(question: str):
     """
-    Upcoming events document.
+    Extract upcoming events and dates from documents.
     """
-    return answer_question(
-        question,
-        vector_store
+
+    docs = vector_store.similarity_search(
+        "events workshop meeting dates",
+        k=5
     )
-# @tool
-# def search_document(question: str) -> str:
-#     """
-#     Search the document and answer questions.
-#     """
-#
-#     return f"Searching document for: {question}"
-#
-#
-# @tool
-# def summarize_document(_: str) -> str:
-#     """
-#     Summarize the document.
-#     """
-#
-#     return "This document contains company policies, product specifications and FAQs."
+
+    context = "\n".join(
+        doc.page_content
+        for doc in docs
+    )
+
+    prompt = f"""
+Extract upcoming events and dates.
+
+Context:
+{context}
+
+Return only events.
+"""
+
+    response = get_llm().invoke(prompt)
+
+    return response.content

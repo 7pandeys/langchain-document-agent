@@ -2,31 +2,28 @@ from src.llm import get_llm
 from src.tools import (
     search_document,
     summarize_document,
+    upcoming_events, list_sources
 )
 
 llm = get_llm()
 
 def choose_tool(query):
-    prompt = f"""
+    tool_prompt = f"""
     You are a routing agent.
-    You are a document assistant.
-
-    Answer ONLY using the provided context.
-
-    If the answer is not present in the context,
-    reply:
-
-    "I could not find that information in the document."
-    
-    Do not use external knowledge.
 
     Available tools:
 
     search_document
-    - Use when the user asks a question about the document.
+    - Answer questions from document
 
     summarize_document
-    - Use when the user wants a summary of the document.
+    - Summarize document
+    
+    list_sources
+    - Show document source information and page numbers
+    
+    upcoming_events
+    - Extract upcoming events, workshops and dates from documents
 
     User Request:
     {query}
@@ -34,15 +31,14 @@ def choose_tool(query):
     Return EXACTLY one tool name.
 
     Allowed outputs:
+
     search_document
     summarize_document
-
-    No explanation.
-    No spaces.
-    No punctuation.
+    list_sources
+    upcoming_events
     """
 
-    response = llm.invoke(prompt)
+    response = llm.invoke(tool_prompt)
 
     # return response.content.strip()
     return response.content.strip().lower().replace(" ", "")
@@ -60,6 +56,16 @@ def run_agent(query):
 
     elif tool_name == "summarize_document":
         return summarize_document.invoke(
+            {"question": query}
+        )
+
+    elif tool_name == "list_sources":
+        return list_sources.invoke(
+            {"question": query}
+        )
+
+    elif tool_name == "upcoming_events":
+        return upcoming_events.invoke(
             {"question": query}
         )
 

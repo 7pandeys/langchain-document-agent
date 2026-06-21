@@ -32,19 +32,17 @@ def answer_question(question, vector_store):
     )
 
     prompt = f"""
-    You are a document question-answering assistant.
-
-    Use ONLY the provided context.
-
-    If the answer is not present in the context, respond:
-
-    "I could not find that information in the provided document."
-
-    Do not use external knowledge.
-
+    You are a document assistant.
+    
+    Answer using ONLY the provided context.
+    
+    If the answer is not present in the context,
+    reply:
+    "I could not find that information in the document."
+    
     Context:
     {context}
-
+    
     Question:
     {question}
     """

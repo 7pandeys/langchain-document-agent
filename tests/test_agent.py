@@ -11,3 +11,21 @@ print(
         "Summarize the document"
     )
 )
+
+print(
+    run_agent(
+        "List the products"
+    )
+)
+
+print(
+    run_agent(
+        "What upcoming events are scheduled?"
+    )
+)
+
+print(
+    run_agent(
+        "Show document sources"
+    )
+)
