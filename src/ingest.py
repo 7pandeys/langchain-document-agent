@@ -2,15 +2,15 @@ from pypdf import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 
-def load_pdf(path):
-    reader = PdfReader(path)
-
-    text = ""
-
-    for page in reader.pages:
-        text += page.extract_text()
-
-    return text
+# def load_pdf(path):
+#     reader = PdfReader(path)
+#
+#     text = ""
+#
+#     for page in reader.pages:
+#         text += page.extract_text()
+#
+#     return text
 
 def load_pdf_documents(path):
     reader = PdfReader(path)

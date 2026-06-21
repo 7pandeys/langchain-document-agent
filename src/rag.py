@@ -12,8 +12,17 @@ def get_llm():
 def answer_question(question, vector_store):
     docs = vector_store.similarity_search(
         question,
-        k=2
+        k=5
     )
+    # Source Attribution
+
+    unique_sources = set()
+
+    for doc in docs:
+        unique_sources.add(
+            f"{doc.metadata['source']} "
+            f"(Page {doc.metadata['page']})"
+        )
 
 
     context = "\n\n".join(
@@ -43,4 +52,10 @@ def answer_question(question, vector_store):
 
     response = llm.invoke(prompt)
 
-    return response.content
+    answer = response.content
+
+    return (
+            f"{answer}\n\n"
+            f"Sources:\n"
+            + "\n".join(unique_sources)
+    )

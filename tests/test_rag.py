@@ -1,4 +1,4 @@
-from src.ingest import load_pdf, chunk_text, load_pdf_documents
+from src.ingest import chunk_text, load_pdf_documents
 from src.embeddings import get_embeddings
 from src.vector_store import create_vector_store
 from src.rag import answer_question

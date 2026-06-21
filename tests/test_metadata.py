@@ -1,4 +1,4 @@
-from src.ingest import load_pdf, chunk_text, load_pdf_documents
+from src.ingest import  chunk_text, load_pdf_documents
 from src.embeddings import get_embeddings
 from src.vector_store import create_vector_store
 from src.rag import answer_question
@@ -17,6 +17,11 @@ vector_store = create_vector_store(
 results = vector_store.similarity_search(
     "vacation policy",
     k=2
+)
+
+results = vector_store.similarity_search(
+    "When is the next RAG workshop?",
+    k=5
 )
 print(results[0].metadata)
 # for doc in results:
