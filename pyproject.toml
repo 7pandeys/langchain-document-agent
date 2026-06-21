@@ -17,6 +17,7 @@ langchain-text-splitters = "^1.1.2"
 langchain-google-genai = "^4.2.5"
 sentence-transformers = "^5.5.1"
 python-dotenv = "^1.2.2"
+langchain-core = "^1.4.8"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

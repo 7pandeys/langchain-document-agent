@@ -1570,19 +1570,19 @@ tenacity = ">=8.1.0,<8.4.0 || >8.4.0,<10.0.0"
 
 [[package]]
 name = "langchain-core"
-version = "1.4.7"
+version = "1.4.8"
 description = "Building applications with LLMs through composability"
 optional = false
 python-versions = "<4.0.0,>=3.10.0"
 groups = ["main"]
 files = [
-    {file = "langchain_core-1.4.7-py3-none-any.whl", hash = "sha256:bcadd51951140ecdcba98311dbd931ba5de02a5ba8a2288dad5069c1eea2a13d"},
-    {file = "langchain_core-1.4.7.tar.gz", hash = "sha256:7a825d77de0a3f39adbd9d09612a75e85527e14a52c1601089bcc062972d9f2b"},
+    {file = "langchain_core-1.4.8-py3-none-any.whl", hash = "sha256:d84c28b05e3ba8d4271d0827aad5b592ccdaaf986e76768c23503f0a2045e8aa"},
+    {file = "langchain_core-1.4.8.tar.gz", hash = "sha256:5bf1f8411077c904182ad8f975943d36adcbf579c4e017b3a118b719229ebf9a"},
 ]
 
 [package.dependencies]
 jsonpatch = ">=1.33.0,<2.0.0"
-langchain-protocol = ">=0.0.14"
+langchain-protocol = ">=0.0.17"
 langsmith = ">=0.3.45,<1.0.0"
 packaging = ">=23.2.0"
 pydantic = ">=2.7.4,<3.0.0"
@@ -5180,4 +5180,4 @@ cffi = ["cffi (>=1.17,<2.0) ; platform_python_implementation != \"PyPy\" and pyt
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.13"
-content-hash = "862959e13e9331d7115b7e309ec217ebfeeedb047d314f5d4d09a903ae382c5f"
+content-hash = "03b98a288558ca6946e417ff4285cd80a955a775dbf929201f4e555d388dd33c"
