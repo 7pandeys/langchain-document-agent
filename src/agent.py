@@ -1,23 +1,29 @@
 from src.tools import (
     search_document,
-    summarize_document
+    summarize_document,
+    upcoming_events, list_sources
+
 )
+def run_agent(query):
 
-def run_agent(query: str):
+    query = query.lower()
 
-    query_lower = query.lower()
-
-    if "summarize" in query_lower:
+    if "summary" in query:
         return summarize_document.invoke(
             {"question": query}
         )
 
-    return search_document.invoke(
-        {"question": query}
-    )
-#
-# agent = create_tool_calling_agent(
-#     llm,
-#     tools,
-#     prompt
-# )
+    elif "event" in query:
+        return upcoming_events.invoke(
+            {"question": query}
+        )
+
+    elif "source" in query:
+        return list_sources.invoke(
+            {"question": query}
+        )
+
+    else:
+        return search_document.invoke(
+            {"question": query}
+        )

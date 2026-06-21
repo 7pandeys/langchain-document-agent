@@ -24,7 +24,25 @@ def summarize_document(question: str) -> str:
         question,
         vector_store
     )
+@tool
+def list_sources(question: str):
+    """
+    List document.
+    """
+    return answer_question(
+        question,
+        vector_store
+    )
 
+@tool
+def upcoming_events(question: str):
+    """
+    Upcoming events document.
+    """
+    return answer_question(
+        question,
+        vector_store
+    )
 # @tool
 # def search_document(question: str) -> str:
 #     """

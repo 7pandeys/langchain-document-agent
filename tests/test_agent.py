@@ -1,4 +1,4 @@
-from src.agent import run_agent
+from src.agent_qwen import run_agent
 
 print(
     run_agent(

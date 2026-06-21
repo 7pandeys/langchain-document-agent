@@ -1,12 +1,13 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from src.config import GOOGLE_API_KEY
+from src.llm import get_llm
 
-def get_llm():
-    return ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash",
-        google_api_key=GOOGLE_API_KEY,
-        temperature=0
-    )
+# def get_llm():
+#     return ChatGoogleGenerativeAI(
+#         model="gemini-2.5-flash",
+#         google_api_key=GOOGLE_API_KEY,
+#         temperature=0
+#     )
 
 
 def answer_question(question, vector_store):

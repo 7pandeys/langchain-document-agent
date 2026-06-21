@@ -1,8 +1,8 @@
-from src.ingest import load_pdf, chunk_text
+from src.ingest import  load_pdf_documents, chunk_text
 from src.embeddings import get_embeddings
 from src.vector_store import create_vector_store
 
-text = load_pdf("data/sample.pdf")
+text = load_pdf_documents("data/sample.pdf")
 
 chunks = chunk_text(text)
 
